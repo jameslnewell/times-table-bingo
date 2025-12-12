@@ -1,14 +1,13 @@
 "use client";
 
 import { BingoSheet } from "../_components/BingoSheet";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocalStorage } from "../_hooks/useLocalStorage";
 
 const TIMES_TABLES_MAX = 12;
-const COLUMNS = 4;
-const ROWS = 4;
-const CELLS_PER_SHEET = COLUMNS * ROWS;
+const MIN_GRID_SIZE = 4;
+const MAX_GRID_SIZE = 12;
 
 function generateAllPossibleAnswers(selectedTimesTables: number[]): number[] {
   const answers = new Set<number>();
@@ -32,9 +31,9 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-function generateSheetAnswers(allAnswers: number[]): number[] {
+function generateSheetAnswers(allAnswers: number[], cellsPerSheet: number): number[] {
   const shuffled = shuffleArray(allAnswers);
-  return shuffled.slice(0, CELLS_PER_SHEET);
+  return shuffled.slice(0, cellsPerSheet);
 }
 
 export default function SheetsPage() {
@@ -42,16 +41,19 @@ export default function SheetsPage() {
     "times-table-bingo-selected-tables",
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   );
+  const [gridSize, setGridSize] = useState(4);
+
+  const cellsPerSheet = gridSize * gridSize;
 
   const sheets = useMemo(() => {
     const allAnswers = generateAllPossibleAnswers(selectedTimesTables);
     return [
-      generateSheetAnswers(allAnswers),
-      generateSheetAnswers(allAnswers),
-      generateSheetAnswers(allAnswers),
-      generateSheetAnswers(allAnswers),
+      generateSheetAnswers(allAnswers, cellsPerSheet),
+      generateSheetAnswers(allAnswers, cellsPerSheet),
+      generateSheetAnswers(allAnswers, cellsPerSheet),
+      generateSheetAnswers(allAnswers, cellsPerSheet),
     ];
-  }, [selectedTimesTables]);
+  }, [selectedTimesTables, cellsPerSheet]);
 
   return (
     <div className="min-h-screen p-8 bg-gray-100">
@@ -74,10 +76,31 @@ export default function SheetsPage() {
           </div>
         </div>
 
+        <div className="mb-6 print:hidden">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <label htmlFor="grid-size" className="block text-lg font-semibold mb-3">
+              Grid Size: {gridSize} × {gridSize}
+            </label>
+            <input
+              id="grid-size"
+              type="range"
+              min={MIN_GRID_SIZE}
+              max={MAX_GRID_SIZE}
+              value={gridSize}
+              onChange={(e) => setGridSize(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+            />
+            <div className="flex justify-between text-sm text-gray-600 mt-2">
+              <span>{MIN_GRID_SIZE}×{MIN_GRID_SIZE}</span>
+              <span>{MAX_GRID_SIZE}×{MAX_GRID_SIZE}</span>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 print:gap-0 print:grid-cols-2">
           {sheets.map((answers, index) => (
             <div key={index} className="print:break-inside-avoid print:mb-8">
-              <BingoSheet answers={answers} columns={COLUMNS} rows={ROWS} />
+              <BingoSheet answers={answers} columns={gridSize} rows={gridSize} />
             </div>
           ))}
         </div>
