@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Times Table Bingo",
-  description: "A fun educational game for learning times tables",
+  title: "Math Bingo",
+  description: "A fun educational game for learning math",
 };
 
 export default function RootLayout({

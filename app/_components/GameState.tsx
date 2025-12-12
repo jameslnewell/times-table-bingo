@@ -94,7 +94,7 @@ export function GameState({
           href="https://jameslnewell.github.io/times-table-bingo"
           className="text-gray-700 hover:text-gray-900 transition-colors"
         >
-          Times Table Bingo
+          Math Bingo
         </a>
       </h1>
       <main className="flex-1 flex flex-col items-center justify-center p-8">

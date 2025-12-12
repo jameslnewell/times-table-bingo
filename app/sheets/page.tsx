@@ -59,7 +59,7 @@ export default function SheetsPage() {
     <div className="min-h-screen p-8 bg-gray-100">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8 print:hidden">
-          <h1 className="text-3xl font-bold">Times Table Bingo Sheets</h1>
+          <h1 className="text-3xl font-bold">Math Bingo Sheets</h1>
           <div className="flex gap-4">
             <button
               onClick={() => window.print()}
