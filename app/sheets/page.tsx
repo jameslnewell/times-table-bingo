@@ -3,17 +3,21 @@
 import { BingoSheet } from "../_components/BingoSheet";
 import { useMemo } from "react";
 import Link from "next/link";
+import { useLocalStorage } from "../_hooks/useLocalStorage";
 
 const TIMES_TABLES_MAX = 12;
 const COLUMNS = 4;
 const ROWS = 4;
 const CELLS_PER_SHEET = COLUMNS * ROWS;
 
-function generateAllPossibleAnswers(): number[] {
+function generateAllPossibleAnswers(selectedTimesTables: number[]): number[] {
   const answers = new Set<number>();
   for (let i = 1; i <= TIMES_TABLES_MAX; i++) {
     for (let j = 1; j <= TIMES_TABLES_MAX; j++) {
-      answers.add(i * j);
+      // Include answer if at least one of the numbers is in the selected times tables
+      if (selectedTimesTables.includes(i) || selectedTimesTables.includes(j)) {
+        answers.add(i * j);
+      }
     }
   }
   return Array.from(answers);
@@ -34,15 +38,20 @@ function generateSheetAnswers(allAnswers: number[]): number[] {
 }
 
 export default function SheetsPage() {
+  const [selectedTimesTables] = useLocalStorage<number[]>(
+    "times-table-bingo-selected-tables",
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  );
+
   const sheets = useMemo(() => {
-    const allAnswers = generateAllPossibleAnswers();
+    const allAnswers = generateAllPossibleAnswers(selectedTimesTables);
     return [
       generateSheetAnswers(allAnswers),
       generateSheetAnswers(allAnswers),
       generateSheetAnswers(allAnswers),
       generateSheetAnswers(allAnswers),
     ];
-  }, []);
+  }, [selectedTimesTables]);
 
   return (
     <div className="min-h-screen p-8 bg-gray-100">

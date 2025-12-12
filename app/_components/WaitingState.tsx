@@ -5,9 +5,11 @@ interface WaitingStateProps {
   mode: GameMode;
   delay: number;
   showAnswers: boolean;
+  selectedTimesTables: number[];
   onDelayChange: (delay: number) => void;
   onModeChange: (mode: GameMode) => void;
   onShowAnswersChange: (value: boolean) => void;
+  onSelectedTimesTablesChange: (selected: number[]) => void;
   onPlay: () => void;
 }
 
@@ -15,11 +17,20 @@ export function WaitingState({
   mode,
   delay,
   showAnswers,
+  selectedTimesTables,
   onPlay,
   onModeChange,
   onDelayChange,
   onShowAnswersChange,
+  onSelectedTimesTablesChange,
 }: WaitingStateProps) {
+  const toggleTimesTable = (num: number) => {
+    if (selectedTimesTables.includes(num)) {
+      onSelectedTimesTablesChange(selectedTimesTables.filter((n) => n !== num));
+    } else {
+      onSelectedTimesTablesChange([...selectedTimesTables, num].sort((a, b) => a - b));
+    }
+  };
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-8 max-w-md w-full">
       <div className="w-full space-y-6">
@@ -52,23 +63,25 @@ export function WaitingState({
           </div>
         </div>
 
-        {/* Delay Selection */}
+        {/* Times Tables Selection */}
         <div className="space-y-2">
           <label className="block text-xl font-semibold text-gray-700">
-            Speed: {delay / 1000}s
+            Times Tables
           </label>
-          <input
-            type="range"
-            min="1000"
-            max="10000"
-            step="500"
-            value={delay}
-            onChange={(e) => onDelayChange(Number(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-          />
-          <div className="flex justify-between text-sm text-gray-500">
-            <span>Fast (1s)</span>
-            <span>Slow (10s)</span>
+          <div className="grid grid-cols-4 gap-2">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
+              <button
+                key={num}
+                onClick={() => toggleTimesTable(num)}
+                className={`py-2 px-3 rounded-lg font-semibold transition-colors ${
+                  selectedTimesTables.includes(num)
+                    ? "bg-gray-700 text-white"
+                    : "bg-gray-200 text-gray-400 hover:bg-gray-300"
+                }`}
+              >
+                {num}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -89,6 +102,26 @@ export function WaitingState({
       </div>
 
       <div className="flex flex-col gap-4 w-full">
+        {/* Delay Selection */}
+        <div className="space-y-2">
+          <label className="block text-xl font-semibold text-gray-700">
+            Speed: {delay / 1000}s
+          </label>
+          <input
+            type="range"
+            min="1000"
+            max="10000"
+            step="500"
+            value={delay}
+            onChange={(e) => onDelayChange(Number(e.target.value))}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+          />
+          <div className="flex justify-between text-sm text-gray-500">
+            <span>Fast (1s)</span>
+            <span>Slow (10s)</span>
+          </div>
+        </div>
+
         <button
           onClick={onPlay}
           className="text-4xl font-bold px-12 py-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"

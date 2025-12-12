@@ -12,6 +12,7 @@ export interface GameExpression {
 export interface GameConfig {
   mode?: GameMode;
   delay?: number;
+  selectedTimesTables?: number[];
 }
 
 export interface GameState {
@@ -23,7 +24,8 @@ const TIMES_TABLES_MAX = 12;
 
 function generateExpression(
   mode: GameMode,
-  usedAnswers: Set<number>
+  usedAnswers: Set<number>,
+  selectedTimesTables: number[]
 ): GameExpression | null {
   const maxAttempts = 100;
   let attempts = 0;
@@ -33,7 +35,10 @@ function generateExpression(
     const right = Math.floor(Math.random() * TIMES_TABLES_MAX) + 1;
     const answer = left * right;
 
-    if (!usedAnswers.has(answer)) {
+    // Check if at least one of left or right is in the selected times tables
+    const isValid = selectedTimesTables.includes(left) || selectedTimesTables.includes(right);
+
+    if (!usedAnswers.has(answer) && isValid) {
       return {
         left: mode === "multiplication" ? left : answer,
         right,
@@ -48,7 +53,7 @@ function generateExpression(
 }
 
 export function useGame(config: GameConfig = {}) {
-  const { delay = 3000, mode = "multiplication" } = config;
+  const { delay = 3000, mode = "multiplication", selectedTimesTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] } = config;
 
   const [status, setStatus] = React.useState<GameStatus>("waiting");
   const [expressions, setExpressions] = React.useState<GameExpression[]>([]);
@@ -57,7 +62,7 @@ export function useGame(config: GameConfig = {}) {
   const generateNextExpression = React.useCallback(() => {
     setExpressions((prev) => {
       const usedAnswers = new Set(prev.map((expr) => expr.answer));
-      const expression = generateExpression(mode, usedAnswers);
+      const expression = generateExpression(mode, usedAnswers, selectedTimesTables);
 
       if (expression) {
         return [...prev, expression];
@@ -71,14 +76,14 @@ export function useGame(config: GameConfig = {}) {
         return prev;
       }
     });
-  }, [mode]);
+  }, [mode, selectedTimesTables]);
 
   const play = React.useCallback(() => {
     setStatus("playing");
     setExpressions([]);
 
     // Generate first expression immediately
-    const firstExpression = generateExpression(mode, new Set());
+    const firstExpression = generateExpression(mode, new Set(), selectedTimesTables);
     if (firstExpression) {
       setExpressions([firstExpression]);
     }
@@ -87,7 +92,7 @@ export function useGame(config: GameConfig = {}) {
     intervalRef.current = setInterval(() => {
       generateNextExpression();
     }, delay);
-  }, [mode, delay, generateNextExpression]);
+  }, [mode, delay, selectedTimesTables, generateNextExpression]);
 
   const bingo = React.useCallback(() => {
     setStatus("won");

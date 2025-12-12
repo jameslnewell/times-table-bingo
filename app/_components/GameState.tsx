@@ -9,11 +9,13 @@ interface GameStateProps {
   mode: GameMode;
   delay: number;
   showAnswers: boolean;
+  selectedTimesTables: number[];
   expressions: GameExpression[];
   onPlay: () => void;
   onModeChange: (mode: GameMode) => void;
   onDelayChange: (delay: number) => void;
   onShowAnswersChange: (value: boolean) => void;
+  onSelectedTimesTablesChange: (selected: number[]) => void;
   onBingo: () => void;
   onReset: () => void;
   onPlayAgain: () => void;
@@ -24,11 +26,13 @@ export function GameState({
   mode,
   delay,
   showAnswers,
+  selectedTimesTables,
   expressions,
   onPlay,
   onModeChange,
   onDelayChange,
   onShowAnswersChange,
+  onSelectedTimesTablesChange,
   onBingo,
   onReset,
   onPlayAgain,
@@ -41,10 +45,12 @@ export function GameState({
         mode={mode}
         delay={delay}
         showAnswers={showAnswers}
+        selectedTimesTables={selectedTimesTables}
         onPlay={onPlay}
         onModeChange={onModeChange}
         onDelayChange={onDelayChange}
         onShowAnswersChange={onShowAnswersChange}
+        onSelectedTimesTablesChange={onSelectedTimesTablesChange}
       />
     );
   }

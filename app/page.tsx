@@ -20,7 +20,11 @@ export default function Game() {
     "times-table-bingo-show-answers",
     false
   );
-  const game = useGame({ mode, delay });
+  const [selectedTimesTables, setSelectedTimesTables] = useLocalStorage<number[]>(
+    "times-table-bingo-selected-tables",
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  );
+  const game = useGame({ mode, delay, selectedTimesTables });
   const audioContext = useAudioContext();
   const prevExpressionCountRef = useRef(0);
 
@@ -42,11 +46,13 @@ export default function Game() {
       mode={mode}
       delay={delay}
       showAnswers={showAnswers}
+      selectedTimesTables={selectedTimesTables}
       expressions={game.expressions}
       onPlay={game.play}
       onModeChange={setMode}
       onDelayChange={setDelay}
       onShowAnswersChange={setShowAnswers}
+      onSelectedTimesTablesChange={setSelectedTimesTables}
       onBingo={game.bingo}
       onReset={game.reset}
       onPlayAgain={game.reset}
