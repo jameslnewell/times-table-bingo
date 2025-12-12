@@ -6,7 +6,6 @@ export type GameStatus = "waiting" | "playing" | "won" | "lost";
 export interface GameExpression {
   left: number;
   right: number;
-  mode: GameMode;
   answer: number;
 }
 
@@ -38,7 +37,6 @@ function generateExpression(
       return {
         left: mode === "multiplication" ? left : answer,
         right,
-        mode,
         answer: mode === "multiplication" ? answer : left,
       };
     }
@@ -119,6 +117,7 @@ export function useGame(config: GameConfig = {}) {
   return {
     status,
     expressions,
+    mode,
     play,
     bingo,
     reset,

@@ -1,11 +1,12 @@
-import { GameExpression } from "../_hooks/useGame";
+import { GameExpression, GameMode } from "../_hooks/useGame";
 
 interface LostStateProps {
   expressions: GameExpression[];
+  mode: GameMode;
   onPlayAgain: () => void;
 }
 
-export function LostState({ expressions, onPlayAgain }: LostStateProps) {
+export function LostState({ expressions, mode, onPlayAgain }: LostStateProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
       <div className="text-center mb-8">
@@ -21,7 +22,7 @@ export function LostState({ expressions, onPlayAgain }: LostStateProps) {
               key={index}
               className="text-lg font-semibold text-center p-2 bg-white rounded border"
             >
-              {expr.mode === "multiplication"
+              {mode === "multiplication"
                 ? `${expr.left} × ${expr.right} = ${expr.answer}`
                 : `${expr.left} ÷ ${expr.right} = ${expr.answer}`}
             </div>

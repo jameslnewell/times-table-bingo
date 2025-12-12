@@ -45,16 +45,17 @@ export default function Game() {
       <main className="flex-1 flex flex-col items-center justify-center p-8">
         {game.status === "waiting" && (
           <WaitingState
-            onPlay={game.play}
-            delay={delay}
             mode={mode}
-            onDelayChange={setDelay}
+            delay={delay}
+            onPlay={game.play}
             onModeChange={setMode}
+            onDelayChange={setDelay}
           />
         )}
 
         {game.status === "playing" && (
           <PlayingState
+            mode={game.mode}
             expressions={game.expressions}
             onBingo={game.bingo}
             onReset={game.reset}
@@ -62,11 +63,19 @@ export default function Game() {
         )}
 
         {game.status === "won" && (
-          <WonState expressions={game.expressions} onPlayAgain={game.reset} />
+          <WonState
+            mode={game.mode}
+            expressions={game.expressions}
+            onPlayAgain={game.reset}
+          />
         )}
 
         {game.status === "lost" && (
-          <LostState expressions={game.expressions} onPlayAgain={game.reset} />
+          <LostState
+            mode={game.mode}
+            expressions={game.expressions}
+            onPlayAgain={game.reset}
+          />
         )}
       </main>
     </div>

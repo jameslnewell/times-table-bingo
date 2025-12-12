@@ -1,12 +1,13 @@
-import { GameExpression } from "../_hooks/useGame";
+import { GameExpression, GameMode } from "../_hooks/useGame";
 
 interface PlayingStateProps {
   expressions: GameExpression[];
+  mode: GameMode;
   onBingo: () => void;
   onReset: () => void;
 }
 
-export function PlayingState({ expressions, onBingo, onReset }: PlayingStateProps) {
+export function PlayingState({ expressions, mode, onBingo, onReset }: PlayingStateProps) {
   const isNewest = (index: number) => index === expressions.length - 1;
 
   return (
@@ -20,7 +21,7 @@ export function PlayingState({ expressions, onBingo, onReset }: PlayingStateProp
                 isNewest(index) ? "text-7xl" : "text-5xl opacity-70"
               }`}
             >
-              {expr.mode === "multiplication"
+              {mode === "multiplication"
                 ? `${expr.left} × ${expr.right}`
                 : `${expr.left} ÷ ${expr.right}`}
             </div>
