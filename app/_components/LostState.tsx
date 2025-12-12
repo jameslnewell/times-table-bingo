@@ -1,12 +1,12 @@
 import { GameExpression, GameMode } from "../_hooks/useGame";
 
 interface LostStateProps {
-  expressions: GameExpression[];
   mode: GameMode;
+  expressions: GameExpression[];
   onPlayAgain: () => void;
 }
 
-export function LostState({ expressions, mode, onPlayAgain }: LostStateProps) {
+export function LostState({ mode, expressions, onPlayAgain }: LostStateProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
       <div className="text-center mb-8">

@@ -1,12 +1,12 @@
 import { GameExpression, GameMode } from "../_hooks/useGame";
 
 interface WonStateProps {
-  expressions: GameExpression[];
   mode: GameMode;
+  expressions: GameExpression[];
   onPlayAgain: () => void;
 }
 
-export function WonState({ expressions, mode, onPlayAgain }: WonStateProps) {
+export function WonState({ mode, expressions, onPlayAgain }: WonStateProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
       <div className="text-center mb-8">

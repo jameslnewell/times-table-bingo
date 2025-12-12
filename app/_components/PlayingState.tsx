@@ -1,13 +1,13 @@
 import { GameExpression, GameMode } from "../_hooks/useGame";
 
 interface PlayingStateProps {
-  expressions: GameExpression[];
   mode: GameMode;
+  expressions: GameExpression[];
   onBingo: () => void;
   onReset: () => void;
 }
 
-export function PlayingState({ expressions, mode, onBingo, onReset }: PlayingStateProps) {
+export function PlayingState({ mode, expressions, onBingo, onReset }: PlayingStateProps) {
   const isNewest = (index: number) => index === expressions.length - 1;
 
   return (

@@ -10,8 +10,8 @@ export interface GameExpression {
 }
 
 export interface GameConfig {
-  delay?: number; // in milliseconds, default 3000
-  mode?: GameMode; // default "multiplication"
+  mode?: GameMode;
+  delay?: number;
 }
 
 export interface GameState {

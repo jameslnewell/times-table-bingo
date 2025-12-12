@@ -1,19 +1,19 @@
 import { GameMode } from "../_hooks/useGame";
 
 interface WaitingStateProps {
-  onPlay: () => void;
-  delay: number;
   mode: GameMode;
+  delay: number;
   onDelayChange: (delay: number) => void;
   onModeChange: (mode: GameMode) => void;
+  onPlay: () => void;
 }
 
 export function WaitingState({
-  onPlay,
-  delay,
   mode,
-  onDelayChange,
+  delay,
+  onPlay,
   onModeChange,
+  onDelayChange,
 }: WaitingStateProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-8 max-w-md w-full">
