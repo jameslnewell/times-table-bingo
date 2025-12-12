@@ -54,23 +54,24 @@ export function useGame(config: GameConfig = {}) {
   const [expressions, setExpressions] = React.useState<GameExpression[]>([]);
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const usedAnswers = React.useMemo(() => {
-    return new Set(expressions.map((expr) => expr.answer));
-  }, [expressions]);
-
   const generateNextExpression = React.useCallback(() => {
-    const expression = generateExpression(mode, usedAnswers);
-    if (expression) {
-      setExpressions((prev) => [...prev, expression]);
-    } else {
-      // No more unique expressions available
-      setStatus("lost");
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+    setExpressions((prev) => {
+      const usedAnswers = new Set(prev.map((expr) => expr.answer));
+      const expression = generateExpression(mode, usedAnswers);
+
+      if (expression) {
+        return [...prev, expression];
+      } else {
+        // No more unique expressions available
+        setStatus("lost");
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+        return prev;
       }
-    }
-  }, [mode, usedAnswers]);
+    });
+  }, [mode]);
 
   const play = React.useCallback(() => {
     setStatus("playing");

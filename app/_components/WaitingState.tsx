@@ -4,17 +4,21 @@ import Link from "next/link";
 interface WaitingStateProps {
   mode: GameMode;
   delay: number;
+  showAnswers: boolean;
   onDelayChange: (delay: number) => void;
   onModeChange: (mode: GameMode) => void;
+  onShowAnswersChange: (value: boolean) => void;
   onPlay: () => void;
 }
 
 export function WaitingState({
   mode,
   delay,
+  showAnswers,
   onPlay,
   onModeChange,
   onDelayChange,
+  onShowAnswersChange,
 }: WaitingStateProps) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center gap-8 max-w-md w-full">
@@ -56,7 +60,7 @@ export function WaitingState({
           <input
             type="range"
             min="1000"
-            max="5000"
+            max="10000"
             step="500"
             value={delay}
             onChange={(e) => onDelayChange(Number(e.target.value))}
@@ -64,8 +68,23 @@ export function WaitingState({
           />
           <div className="flex justify-between text-sm text-gray-500">
             <span>Fast (1s)</span>
-            <span>Slow (5s)</span>
+            <span>Slow (10s)</span>
           </div>
+        </div>
+
+        {/* Show Answers Toggle */}
+        <div className="space-y-2">
+          <label className="flex items-center justify-between cursor-pointer">
+            <span className="text-xl font-semibold text-gray-700">
+              Show Answers
+            </span>
+            <input
+              type="checkbox"
+              checked={showAnswers}
+              onChange={(e) => onShowAnswersChange(e.target.checked)}
+              className="w-6 h-6 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+            />
+          </label>
         </div>
       </div>
 

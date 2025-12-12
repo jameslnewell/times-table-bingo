@@ -8,10 +8,12 @@ interface GameStateProps {
   status: GameStatus;
   mode: GameMode;
   delay: number;
+  showAnswers: boolean;
   expressions: GameExpression[];
   onPlay: () => void;
   onModeChange: (mode: GameMode) => void;
   onDelayChange: (delay: number) => void;
+  onShowAnswersChange: (value: boolean) => void;
   onBingo: () => void;
   onReset: () => void;
   onPlayAgain: () => void;
@@ -21,10 +23,12 @@ export function GameState({
   status,
   mode,
   delay,
+  showAnswers,
   expressions,
   onPlay,
   onModeChange,
   onDelayChange,
+  onShowAnswersChange,
   onBingo,
   onReset,
   onPlayAgain,
@@ -36,9 +40,11 @@ export function GameState({
       <WaitingState
         mode={mode}
         delay={delay}
+        showAnswers={showAnswers}
         onPlay={onPlay}
         onModeChange={onModeChange}
         onDelayChange={onDelayChange}
+        onShowAnswersChange={onShowAnswersChange}
       />
     );
   }
@@ -47,6 +53,7 @@ export function GameState({
     content = (
       <PlayingState
         mode={mode}
+        showAnswers={showAnswers}
         expressions={expressions}
         onBingo={onBingo}
         onReset={onReset}

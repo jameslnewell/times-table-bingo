@@ -66,6 +66,6 @@ describe("WaitingState", () => {
   it("displays speed range labels", () => {
     render(<WaitingState {...defaultProps} />);
     expect(screen.getByText("Fast (1s)")).toBeInTheDocument();
-    expect(screen.getByText("Slow (5s)")).toBeInTheDocument();
+    expect(screen.getByText("Slow (10s)")).toBeInTheDocument();
   });
 });
