@@ -39,10 +39,10 @@ export function WaitingState({
           <label className="block text-xl font-semibold text-gray-700">
             Game Mode
           </label>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => onModeChange("multiplication")}
-              className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-colors ${
+              className={`py-3 px-6 rounded-lg font-semibold transition-colors ${
                 mode === "multiplication"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
@@ -52,13 +52,33 @@ export function WaitingState({
             </button>
             <button
               onClick={() => onModeChange("division")}
-              className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-colors ${
+              className={`py-3 px-6 rounded-lg font-semibold transition-colors ${
                 mode === "division"
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300"
               }`}
             >
               Division
+            </button>
+            <button
+              onClick={() => onModeChange("addition")}
+              className={`py-3 px-6 rounded-lg font-semibold transition-colors ${
+                mode === "addition"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Addition
+            </button>
+            <button
+              onClick={() => onModeChange("subtraction")}
+              className={`py-3 px-6 rounded-lg font-semibold transition-colors ${
+                mode === "subtraction"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              }`}
+            >
+              Subtraction
             </button>
           </div>
         </div>
@@ -124,7 +144,8 @@ export function WaitingState({
 
         <button
           onClick={onPlay}
-          className="text-4xl font-bold px-12 py-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          disabled={selectedTimesTables.length === 0}
+          className="text-4xl font-bold px-12 py-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
         >
           Play Now
         </button>

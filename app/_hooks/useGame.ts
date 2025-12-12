@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export type GameMode = "multiplication" | "division";
+export type GameMode = "multiplication" | "division" | "addition" | "subtraction";
 export type GameStatus = "waiting" | "playing" | "won" | "lost";
 
 export interface GameExpression {
@@ -33,17 +33,45 @@ function generateExpression(
   while (attempts < maxAttempts) {
     const left = Math.floor(Math.random() * TIMES_TABLES_MAX) + 1;
     const right = Math.floor(Math.random() * TIMES_TABLES_MAX) + 1;
-    const answer = left * right;
+    const product = left * right;
 
     // Check if at least one of left or right is in the selected times tables
     const isValid = selectedTimesTables.includes(left) || selectedTimesTables.includes(right);
 
-    if (!usedAnswers.has(answer) && isValid) {
-      return {
-        left: mode === "multiplication" ? left : answer,
+    let expression: GameExpression;
+
+    if (mode === "multiplication") {
+      expression = {
+        left,
         right,
-        answer: mode === "multiplication" ? answer : left,
+        answer: product,
       };
+    } else if (mode === "division") {
+      expression = {
+        left: product,
+        right,
+        answer: left,
+      };
+    } else if (mode === "addition") {
+      // For addition: (product - right) + right = product
+      // This ensures the answer (product) is from the times tables
+      expression = {
+        left: product - right,
+        right,
+        answer: product,
+      };
+    } else {
+      // For subtraction: product - (product - left) = left
+      // This ensures the answer (left) is from the times tables
+      expression = {
+        left: product,
+        right: product - left,
+        answer: left,
+      };
+    }
+
+    if (!usedAnswers.has(expression.answer) && isValid) {
+      return expression;
     }
 
     attempts++;

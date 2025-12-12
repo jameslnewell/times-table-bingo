@@ -11,6 +11,21 @@ interface PlayingStateProps {
 export function PlayingState({ mode, showAnswers, expressions, onBingo, onReset }: PlayingStateProps) {
   const isNewest = (index: number) => index === expressions.length - 1;
 
+  const getOperator = () => {
+    switch (mode) {
+      case "multiplication":
+        return "×";
+      case "division":
+        return "÷";
+      case "addition":
+        return "+";
+      case "subtraction":
+        return "−";
+      default:
+        return "×";
+    }
+  };
+
   return (
     <>
       <div className="w-full max-w-2xl flex-1 overflow-hidden relative">
@@ -22,9 +37,7 @@ export function PlayingState({ mode, showAnswers, expressions, onBingo, onReset 
                 isNewest(index) ? "text-7xl" : "text-5xl opacity-70"
               }`}
             >
-              {mode === "multiplication"
-                ? `${expr.left} × ${expr.right}`
-                : `${expr.left} ÷ ${expr.right}`}
+              {`${expr.left} ${getOperator()} ${expr.right}`}
               {showAnswers && (
                 <span className="text-gray-400 ml-4">= {expr.answer}</span>
               )}
