@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export function useLocalStorage<T>(
   key: string,
   defaultValue: T
-): [T, (value: T) => void] {
+): [T, (value: T) => void, boolean] {
   const [value, setValue] = useState<T>(defaultValue);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -31,5 +31,5 @@ export function useLocalStorage<T>(
     }
   }, [key, value, isInitialized]);
 
-  return [value, setValue];
+  return [value, setValue, isInitialized];
 }
