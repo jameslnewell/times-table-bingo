@@ -1,4 +1,5 @@
 import { GameMode } from "../_hooks/useGame";
+import Link from "next/link";
 
 interface WaitingStateProps {
   mode: GameMode;
@@ -68,12 +69,20 @@ export function WaitingState({
         </div>
       </div>
 
-      <button
-        onClick={onPlay}
-        className="text-4xl font-bold px-12 py-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-      >
-        Play Now
-      </button>
+      <div className="flex flex-col gap-4 w-full">
+        <button
+          onClick={onPlay}
+          className="text-4xl font-bold px-12 py-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Play Now
+        </button>
+        <Link
+          href="/sheets"
+          className="text-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold"
+        >
+          Print Bingo Sheets
+        </Link>
+      </div>
     </div>
   );
 }
