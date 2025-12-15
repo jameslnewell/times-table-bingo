@@ -18,6 +18,9 @@ export default function RootLayout({
         className={`antialiased`}
       >
         {children}
+        <footer className="fixed bottom-4 right-4 text-sm text-gray-400">
+          Vibe coded by Harry, Isla and James
+        </footer>
       </body>
     </html>
   );
