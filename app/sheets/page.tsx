@@ -32,7 +32,13 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-function generateSheetAnswers(allAnswers: number[], cellsPerSheet: number): number[] {
+interface GenerateSheetAnswersOptions {
+  allAnswers: number[];
+  cellsPerSheet: number;
+}
+
+function generateSheetAnswers(options: GenerateSheetAnswersOptions): number[] {
+  const { allAnswers, cellsPerSheet } = options;
   const shuffled = shuffleArray(allAnswers);
   return shuffled.slice(0, cellsPerSheet);
 }
@@ -49,10 +55,10 @@ export default function SheetsPage() {
   const sheets = useMemo(() => {
     const allAnswers = generateAllPossibleAnswers(selectedTimesTables);
     return [
-      generateSheetAnswers(allAnswers, cellsPerSheet),
-      generateSheetAnswers(allAnswers, cellsPerSheet),
-      generateSheetAnswers(allAnswers, cellsPerSheet),
-      generateSheetAnswers(allAnswers, cellsPerSheet),
+      generateSheetAnswers({ allAnswers, cellsPerSheet }),
+      generateSheetAnswers({ allAnswers, cellsPerSheet }),
+      generateSheetAnswers({ allAnswers, cellsPerSheet }),
+      generateSheetAnswers({ allAnswers, cellsPerSheet }),
     ];
   }, [selectedTimesTables, cellsPerSheet]);
 

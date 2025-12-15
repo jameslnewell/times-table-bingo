@@ -7,6 +7,19 @@ interface LostStateProps {
 }
 
 export function LostState({ mode, expressions, onPlayAgain }: LostStateProps) {
+  const getExpressionString = (expr: GameExpression) => {
+    switch (mode) {
+      case "multiplication":
+        return `${expr.left} × ${expr.right} = ${expr.answer}`;
+      case "division":
+        return `${expr.left} ÷ ${expr.right} = ${expr.answer}`;
+      case "addition":
+        return `${expr.left} + ${expr.right} = ${expr.answer}`;
+      case "subtraction":
+        return `${expr.left} − ${expr.right} = ${expr.answer}`;
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
       <div className="text-center mb-8">
@@ -22,9 +35,7 @@ export function LostState({ mode, expressions, onPlayAgain }: LostStateProps) {
               key={index}
               className="text-lg font-semibold text-center p-2 bg-white rounded border"
             >
-              {mode === "multiplication"
-                ? `${expr.left} × ${expr.right} = ${expr.answer}`
-                : `${expr.left} ÷ ${expr.right} = ${expr.answer}`}
+              {getExpressionString(expr)}
             </div>
           ))}
         </div>

@@ -23,13 +23,16 @@ export interface GameState {
 
 const TIMES_TABLES_MAX = 12;
 
-function generateExpression(
-  mode: GameMode,
-  usedAnswers: Set<number>,
-  usedExpressions: Set<string>,
-  selectedTimesTables: number[],
-  allowDuplicateAnswers: boolean
-): GameExpression | null {
+interface GenerateExpressionOptions {
+  mode: GameMode;
+  usedAnswers: Set<number>;
+  usedExpressions: Set<string>;
+  selectedTimesTables: number[];
+  allowDuplicateAnswers: boolean;
+}
+
+function generateExpression(options: GenerateExpressionOptions): GameExpression | null {
+  const { mode, usedAnswers, usedExpressions, selectedTimesTables, allowDuplicateAnswers } = options;
   const maxAttempts = 100;
   let attempts = 0;
 
@@ -106,7 +109,13 @@ export function useGame(config: GameConfig = {}) {
     setExpressions((prev) => {
       const usedAnswers = new Set(prev.map((expr) => expr.answer));
       const usedExpressions = new Set(prev.map((expr) => `${expr.left},${expr.right}`));
-      const expression = generateExpression(mode, usedAnswers, usedExpressions, selectedTimesTables, allowDuplicateAnswers);
+      const expression = generateExpression({
+        mode,
+        usedAnswers,
+        usedExpressions,
+        selectedTimesTables,
+        allowDuplicateAnswers,
+      });
 
       if (expression) {
         return [...prev, expression];
@@ -127,7 +136,13 @@ export function useGame(config: GameConfig = {}) {
     setExpressions([]);
 
     // Generate first expression immediately
-    const firstExpression = generateExpression(mode, new Set<number>(), new Set<string>(), selectedTimesTables, allowDuplicateAnswers);
+    const firstExpression = generateExpression({
+      mode,
+      usedAnswers: new Set<number>(),
+      usedExpressions: new Set<string>(),
+      selectedTimesTables,
+      allowDuplicateAnswers,
+    });
     if (firstExpression) {
       setExpressions([firstExpression]);
     }
