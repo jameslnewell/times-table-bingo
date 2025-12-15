@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BRAND_NAME } from "./_constants/brand";
 
 export const metadata: Metadata = {
-  title: "Times Table Bingo",
+  title: BRAND_NAME,
   description: "A fun educational game for learning times tables",
 };
 

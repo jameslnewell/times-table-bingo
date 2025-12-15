@@ -3,6 +3,7 @@ import { WaitingState } from "./WaitingState";
 import { PlayingState } from "./PlayingState";
 import { WonState } from "./WonState";
 import { LostState } from "./LostState";
+import { BRAND_NAME } from "../_constants/brand";
 
 interface GameStateProps {
   status: GameStatus;
@@ -100,7 +101,7 @@ export function GameState({
           href="https://jameslnewell.github.io/times-table-bingo"
           className="text-gray-700 hover:text-gray-900 transition-colors"
         >
-          Times Table Bingo
+          {BRAND_NAME}
         </a>
       </h1>
       <main className="flex-1 flex flex-col items-center justify-center p-8">

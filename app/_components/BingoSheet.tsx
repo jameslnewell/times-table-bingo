@@ -1,3 +1,5 @@
+import { BRAND_NAME } from "../_constants/brand";
+
 interface BingoSheetProps {
   answers: number[];
   columns: number;
@@ -9,7 +11,7 @@ export function BingoSheet({ answers, columns, rows }: BingoSheetProps) {
 
   return (
     <div className="border-2 border-black p-4 bg-white">
-      <h2 className="text-xl font-bold text-center mb-4">Times Table Bingo</h2>
+      <h2 className="text-xl font-bold text-center mb-4">{BRAND_NAME}</h2>
       <div
         className="grid gap-0"
         style={{
