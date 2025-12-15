@@ -20,7 +20,7 @@ describe("LostState", () => {
     render(<LostState {...defaultProps} />);
     expect(screen.getByText("Nice Try!")).toBeInTheDocument();
     expect(
-      screen.getByText("All times tables have been used!")
+      screen.getByText("All questions have been shown!")
     ).toBeInTheDocument();
   });
 

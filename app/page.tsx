@@ -24,12 +24,16 @@ export default function Game() {
     "times-table-bingo-selected-tables",
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   );
+  const [allowDuplicateAnswers, setAllowDuplicateAnswers, isAllowDuplicatesLoaded] = useLocalStorage<boolean>(
+    "times-table-bingo-allow-duplicates",
+    false
+  );
 
   const [isHydrated, setIsHydrated] = useState(false);
 
-  const isLoaded = isModeLoaded && isDelayLoaded && isShowAnswersLoaded && isSelectedTablesLoaded;
+  const isLoaded = isModeLoaded && isDelayLoaded && isShowAnswersLoaded && isSelectedTablesLoaded && isAllowDuplicatesLoaded;
 
-  const game = useGame({ mode, delay, selectedTimesTables });
+  const game = useGame({ mode, delay, selectedTimesTables, allowDuplicateAnswers });
   const audioContext = useAudioContext();
   const prevExpressionCountRef = useRef(0);
 
@@ -62,12 +66,14 @@ export default function Game() {
       mode={mode}
       delay={delay}
       showAnswers={showAnswers}
+      allowDuplicateAnswers={allowDuplicateAnswers}
       selectedTimesTables={selectedTimesTables}
       expressions={game.expressions}
       onPlay={game.play}
       onModeChange={setMode}
       onDelayChange={setDelay}
       onShowAnswersChange={setShowAnswers}
+      onAllowDuplicateAnswersChange={setAllowDuplicateAnswers}
       onSelectedTimesTablesChange={setSelectedTimesTables}
       onBingo={game.bingo}
       onReset={game.reset}

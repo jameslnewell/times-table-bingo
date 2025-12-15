@@ -13,12 +13,14 @@ describe("GameState", () => {
     mode: "multiplication" as const,
     delay: 3000,
     showAnswers: false,
+    allowDuplicateAnswers: false,
     selectedTimesTables: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     expressions: mockExpressions,
     onPlay: vi.fn(),
     onModeChange: vi.fn(),
     onDelayChange: vi.fn(),
     onShowAnswersChange: vi.fn(),
+    onAllowDuplicateAnswersChange: vi.fn(),
     onSelectedTimesTablesChange: vi.fn(),
     onBingo: vi.fn(),
     onReset: vi.fn(),
@@ -76,7 +78,7 @@ describe("GameState", () => {
       render(<GameState {...defaultProps} status="lost" />);
       expect(screen.getByText("Nice Try!")).toBeInTheDocument();
       expect(
-        screen.getByText("All times tables have been used!")
+        screen.getByText("All questions have been shown!")
       ).toBeInTheDocument();
       expect(screen.getByText("Play Again")).toBeInTheDocument();
     });

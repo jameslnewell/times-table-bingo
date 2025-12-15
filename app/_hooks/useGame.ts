@@ -13,6 +13,7 @@ export interface GameConfig {
   mode?: GameMode;
   delay?: number;
   selectedTimesTables?: number[];
+  allowDuplicateAnswers?: boolean;
 }
 
 export interface GameState {
@@ -25,7 +26,9 @@ const TIMES_TABLES_MAX = 12;
 function generateExpression(
   mode: GameMode,
   usedAnswers: Set<number>,
-  selectedTimesTables: number[]
+  usedExpressions: Set<string>,
+  selectedTimesTables: number[],
+  allowDuplicateAnswers: boolean
 ): GameExpression | null {
   const maxAttempts = 100;
   let attempts = 0;
@@ -47,10 +50,12 @@ function generateExpression(
         answer: product,
       };
     } else if (mode === "division") {
+      // For division: product ÷ left = right
+      // e.g., if left=2 (from selected table), right=6, product=12, then 12 ÷ 2 = 6
       expression = {
         left: product,
-        right,
-        answer: left,
+        right: left,
+        answer: right,
       };
     } else if (mode === "addition") {
       // For addition: (product - right) + right = product
@@ -70,8 +75,18 @@ function generateExpression(
       };
     }
 
-    if (!usedAnswers.has(expression.answer) && isValid) {
-      return expression;
+    const expressionKey = `${expression.left},${expression.right}`;
+
+    if (allowDuplicateAnswers) {
+      // When duplicates allowed, only check for unique expressions
+      if (!usedExpressions.has(expressionKey) && isValid) {
+        return expression;
+      }
+    } else {
+      // When duplicates not allowed, check for unique answers
+      if (!usedAnswers.has(expression.answer) && isValid) {
+        return expression;
+      }
     }
 
     attempts++;
@@ -81,7 +96,7 @@ function generateExpression(
 }
 
 export function useGame(config: GameConfig = {}) {
-  const { delay = 3000, mode = "multiplication", selectedTimesTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] } = config;
+  const { delay = 3000, mode = "multiplication", selectedTimesTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], allowDuplicateAnswers = false } = config;
 
   const [status, setStatus] = React.useState<GameStatus>("waiting");
   const [expressions, setExpressions] = React.useState<GameExpression[]>([]);
@@ -90,7 +105,8 @@ export function useGame(config: GameConfig = {}) {
   const generateNextExpression = React.useCallback(() => {
     setExpressions((prev) => {
       const usedAnswers = new Set(prev.map((expr) => expr.answer));
-      const expression = generateExpression(mode, usedAnswers, selectedTimesTables);
+      const usedExpressions = new Set(prev.map((expr) => `${expr.left},${expr.right}`));
+      const expression = generateExpression(mode, usedAnswers, usedExpressions, selectedTimesTables, allowDuplicateAnswers);
 
       if (expression) {
         return [...prev, expression];
@@ -104,14 +120,14 @@ export function useGame(config: GameConfig = {}) {
         return prev;
       }
     });
-  }, [mode, selectedTimesTables]);
+  }, [mode, selectedTimesTables, allowDuplicateAnswers]);
 
   const play = React.useCallback(() => {
     setStatus("playing");
     setExpressions([]);
 
     // Generate first expression immediately
-    const firstExpression = generateExpression(mode, new Set(), selectedTimesTables);
+    const firstExpression = generateExpression(mode, new Set<number>(), new Set<string>(), selectedTimesTables, allowDuplicateAnswers);
     if (firstExpression) {
       setExpressions([firstExpression]);
     }

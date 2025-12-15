@@ -5,10 +5,12 @@ interface WaitingStateProps {
   mode: GameMode;
   delay: number;
   showAnswers: boolean;
+  allowDuplicateAnswers: boolean;
   selectedTimesTables: number[];
   onDelayChange: (delay: number) => void;
   onModeChange: (mode: GameMode) => void;
   onShowAnswersChange: (value: boolean) => void;
+  onAllowDuplicateAnswersChange: (value: boolean) => void;
   onSelectedTimesTablesChange: (selected: number[]) => void;
   onPlay: () => void;
 }
@@ -17,11 +19,13 @@ export function WaitingState({
   mode,
   delay,
   showAnswers,
+  allowDuplicateAnswers,
   selectedTimesTables,
   onPlay,
   onModeChange,
   onDelayChange,
   onShowAnswersChange,
+  onAllowDuplicateAnswersChange,
   onSelectedTimesTablesChange,
 }: WaitingStateProps) {
   const toggleTimesTable = (num: number) => {
@@ -115,6 +119,21 @@ export function WaitingState({
               type="checkbox"
               checked={showAnswers}
               onChange={(e) => onShowAnswersChange(e.target.checked)}
+              className="w-6 h-6 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+            />
+          </label>
+        </div>
+
+        {/* Allow Duplicate Answers Toggle */}
+        <div className="space-y-2">
+          <label className="flex items-center justify-between cursor-pointer">
+            <span className="text-xl font-semibold text-gray-700">
+              Allow Duplicate Answers
+            </span>
+            <input
+              type="checkbox"
+              checked={allowDuplicateAnswers}
+              onChange={(e) => onAllowDuplicateAnswersChange(e.target.checked)}
               className="w-6 h-6 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
             />
           </label>

@@ -9,12 +9,14 @@ interface GameStateProps {
   mode: GameMode;
   delay: number;
   showAnswers: boolean;
+  allowDuplicateAnswers: boolean;
   selectedTimesTables: number[];
   expressions: GameExpression[];
   onPlay: () => void;
   onModeChange: (mode: GameMode) => void;
   onDelayChange: (delay: number) => void;
   onShowAnswersChange: (value: boolean) => void;
+  onAllowDuplicateAnswersChange: (value: boolean) => void;
   onSelectedTimesTablesChange: (selected: number[]) => void;
   onBingo: () => void;
   onReset: () => void;
@@ -26,12 +28,14 @@ export function GameState({
   mode,
   delay,
   showAnswers,
+  allowDuplicateAnswers,
   selectedTimesTables,
   expressions,
   onPlay,
   onModeChange,
   onDelayChange,
   onShowAnswersChange,
+  onAllowDuplicateAnswersChange,
   onSelectedTimesTablesChange,
   onBingo,
   onReset,
@@ -45,11 +49,13 @@ export function GameState({
         mode={mode}
         delay={delay}
         showAnswers={showAnswers}
+        allowDuplicateAnswers={allowDuplicateAnswers}
         selectedTimesTables={selectedTimesTables}
         onPlay={onPlay}
         onModeChange={onModeChange}
         onDelayChange={onDelayChange}
         onShowAnswersChange={onShowAnswersChange}
+        onAllowDuplicateAnswersChange={onAllowDuplicateAnswersChange}
         onSelectedTimesTablesChange={onSelectedTimesTablesChange}
       />
     );
@@ -94,7 +100,7 @@ export function GameState({
           href="https://jameslnewell.github.io/times-table-bingo"
           className="text-gray-700 hover:text-gray-900 transition-colors"
         >
-          Math Bingo
+          Times Table Bingo
         </a>
       </h1>
       <main className="flex-1 flex flex-col items-center justify-center p-8">

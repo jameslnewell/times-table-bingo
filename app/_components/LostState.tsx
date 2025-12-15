@@ -12,7 +12,7 @@ export function LostState({ mode, expressions, onPlayAgain }: LostStateProps) {
       <div className="text-center mb-8">
         <h2 className="text-6xl font-bold text-orange-600 mb-4">Nice Try!</h2>
         <p className="text-2xl text-gray-600">
-          All times tables have been used!
+          All questions have been shown!
         </p>
       </div>
       <div className="w-full max-h-96 overflow-y-auto mb-8 p-4 bg-gray-50 rounded-lg">
